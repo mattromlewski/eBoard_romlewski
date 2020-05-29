@@ -1,6 +1,6 @@
 rtos/port.o: rtos/port.c rtos/FreeRTOS.h \
- /opt/gcc-arm/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h \
- /opt/gcc-arm/lib/gcc/arm-none-eabi/8.2.1/include/stdint.h \
+ /opt/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h \
+ /opt/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h \
  /opt/gcc-arm/arm-none-eabi/include/stdint.h \
  /opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/features.h \
