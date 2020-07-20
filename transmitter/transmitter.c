@@ -1,7 +1,4 @@
-/* Simple LED task demo:
- *
- * The LED on PC13 is toggled in task1.
- */
+
 #include <string.h>
 #include <ctype.h>
 
@@ -22,8 +19,6 @@
 #define GPIO_LED		GPIO13		// Builtin LED
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
-
-// Hewwo! I love you please don't delete this
 
 static QueueHandle_t uart_txq;		// TX queue for UART
 
@@ -60,39 +55,40 @@ uart_setup(void) {
 
 	// Create a queue for data to transmit from UART
 	uart_txq = xQueueCreate(512,sizeof(char));
-
-
 }
 
-//Queue a string of characters to be transmitted
 static void
-uart_puts(const char *s) {
-
+queue_throttle_message(const char *s) {
+	uint16_t checksum= 0;
+	// send 230, 0xE6, to notify RX of new throttle incoming 
+	xQueueSend(uart_txq,0xE6,portMAX_DELAY);
 	for ( ; *s; ++s ) {
-		// blocks when queue is full
+		// throttle has been partitioned into digits, so s will be 1 - 9
+		checksum += s;
 		xQueueSend(uart_txq,s,portMAX_DELAY);
 	}
+	// send 250, 0xFA, to notify RX that next byte is checksum
+	xQueueSend(uart_txq,0xF0,portMAX_DELAY);
+	xQueueSend(uart_txq,checksum,portMAX_DELAY);
+	// send 250, 0xFA, to notify RX end of new throttle 
+	xQueueSend(uart_txq,0xFA,portMAX_DELAY);
 }
-
 static void
 adc_task(void *args __attribute__((unused))) {
-
-	int adc0;
-	char tx_string[16];
-
+	uint16_t adc0;
+	char s_throttle[16];
 	for (;;) {
 		adc0 = read_adc(0) * 330 / 4095;
-		sprintf(tx_string,"%d\n\r",adc0);
-		uart_puts(tx_string);
+		//sprintf(s_throttle,"%d\n\r",adc0);
+		sprintf(s_throttle,"%d",adc0);
+		queue_throttle_message(s_throttle);
 		vTaskDelay(pdMS_TO_TICKS(10));
-
 	}
 }
 
 static void
 uart_task(void *args __attribute__((unused))) {
 	char ch;
-
 	for (;;) {
 		// Receive char to be TX
 		if ( xQueueReceive(uart_txq,&ch,500) == pdPASS ) {
