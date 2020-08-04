@@ -5,7 +5,7 @@ rtos/list.o: rtos/list.c /opt/gcc-arm/arm-none-eabi/include/stdlib.h \
  /opt/gcc-arm/arm-none-eabi/include/_newlib_version.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/config.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/features.h \
- /opt/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h \
+ /opt/gcc-arm/lib/gcc/arm-none-eabi/9.3.1/include/stddef.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/reent.h \
  /opt/gcc-arm/arm-none-eabi/include/_ansi.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/_types.h \
@@ -14,7 +14,7 @@ rtos/list.o: rtos/list.c /opt/gcc-arm/arm-none-eabi/include/stdlib.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/lock.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/cdefs.h \
  /opt/gcc-arm/arm-none-eabi/include/machine/stdlib.h rtos/FreeRTOS.h \
- /opt/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h \
+ /opt/gcc-arm/lib/gcc/arm-none-eabi/9.3.1/include/stdint.h \
  /opt/gcc-arm/arm-none-eabi/include/stdint.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/_intsup.h \
  /opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h FreeRTOSConfig.h \

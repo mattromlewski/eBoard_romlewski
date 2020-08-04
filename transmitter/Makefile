@@ -9,8 +9,8 @@ LDSCRIPT	= stm32f103c8t6.ld
 # DEPS		= 	# Any additional dependencies for your build
 # CLOBBER	+= 	# Any additional files to be removed with "make clobber"
 
-include ../../../Makefile.incl
-include ../../Makefile.rtos
+include ../stm32/Makefile.incl
+include ../stm32/rtos/Makefile.rtos
 
 ######################################################################
 #  NOTES:
