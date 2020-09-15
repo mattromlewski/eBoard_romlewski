@@ -55,3 +55,5 @@ Temporary Items
 
 # Downloaded scripts
 get-docker.sh
+.vscode/c_cpp_properties.json
+.vscode/arduino.json

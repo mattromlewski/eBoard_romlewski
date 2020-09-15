@@ -76,10 +76,12 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(g_rx_state);
   switch(g_rx_state) {
     case RXSTATE_INIT_WAIT:
       if(Serial3.available() > 0){
         char rx_byte = Serial3.read();
+        Serial.println(rx_byte);
         if(rx_byte == RXFLAG_INIT) {
           g_rx_state = RXSTATE_READ_CMD_TYPE;
         }
@@ -117,11 +119,13 @@ void loop() {
       check_buf[g_rx_buf_counter] = g_cmd_type;
       // calculate checksum
       char calc_checksum = simple_checksum(check_buf, g_rx_buf_counter + 1);
-      Serial.print(calc_checksum);
+      //Serial.println(calc_checksum);
+      //Serial.println("hello");
       g_rx_buf_counter = 0;
       g_rx_state = RXSTATE_INIT_WAIT;
 
       // if passed, go on to action phase
+      
 
       // failed, go on to waiting phase
 

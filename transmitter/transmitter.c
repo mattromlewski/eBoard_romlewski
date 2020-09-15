@@ -54,29 +54,33 @@ uart_setup(void) {
 	usart_enable(USART1);
 
 	// Create a queue for data to transmit from UART
-	uart_txq = xQueueCreate(512,sizeof(char));
+	uart_txq = xQueueCreate(512,sizeof(unsigned char));
 }
 
 static void
-queue_throttle_message(const char *s) {
-	uint16_t checksum= 0;
-	// send 230, 0xE6, to notify RX of new throttle incoming 
-	xQueueSend(uart_txq,0xE6,portMAX_DELAY);
-	for ( ; *s; ++s ) {
+queue_throttle_message(const unsigned char *s) {
+	uint16_t preSum= 0;
+	unsigned char checksum;
+	// send 91, to notify RX of new throttle incoming 
+	unsigned char startFlag = (unsigned char)(91);
+	xQueueSend(uart_txq,&startFlag,portMAX_DELAY);
+	for(; *s; ++s ) {
 		// throttle has been partitioned into digits, so s will be 1 - 9
-		checksum += s;
+        preSum += *s;
 		xQueueSend(uart_txq,s,portMAX_DELAY);
-	}
-	// send 250, 0xFA, to notify RX that next byte is checksum
-	xQueueSend(uart_txq,0xF0,portMAX_DELAY);
-	xQueueSend(uart_txq,checksum,portMAX_DELAY);
+    }
+	checksum = (unsigned char)(preSum - 256*(preSum/256));
+	// send 93, to notify RX that next byte is checksum
+	unsigned char checkFlag = (unsigned char)(93);
+	xQueueSend(uart_txq,&checkFlag,portMAX_DELAY);
+	xQueueSend(uart_txq,&checksum,portMAX_DELAY);
 	// send 250, 0xFA, to notify RX end of new throttle 
-	xQueueSend(uart_txq,0xFA,portMAX_DELAY);
+	//xQueueSend(uart_txq,0xFA,portMAX_DELAY);
 }
 static void
 adc_task(void *args __attribute__((unused))) {
 	uint16_t adc0;
-	char s_throttle[16];
+	unsigned char s_throttle[16];
 	for (;;) {
 		adc0 = read_adc(0) * 330 / 4095;
 		//sprintf(s_throttle,"%d\n\r",adc0);
@@ -88,7 +92,7 @@ adc_task(void *args __attribute__((unused))) {
 
 static void
 uart_task(void *args __attribute__((unused))) {
-	char ch;
+	unsigned char ch;
 	for (;;) {
 		// Receive char to be TX
 		if ( xQueueReceive(uart_txq,&ch,500) == pdPASS ) {
