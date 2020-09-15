@@ -35,11 +35,11 @@ sudo chmod +x scripts/*
 
 ## Building The Transmitter Application
 
-The process for building the transmitter application which runs on the STM32 is autmated and can be started by running:
+The process for building the transmitter application which runs on the STM32 is automated and can be started by running:
 ```bash
 ./scripts/transmitter-build.sh
 ```
-This will utilize Docker and Docker compsoe to first build the build environemt container (which will take a greater amount of time the first time -- see the Dockerfile for details) and then run the makefile scripts within the container using `docker exec`.
+This will utilize Docker and Docker compose to first build the build environment container (which will take a greater amount of time the first time -- see the Dockerfile for details) and then run the makefile scripts within the container using `docker exec`.
 
 <sub><sup>[back](#introduction)</sub></sup>
 
