@@ -64,7 +64,7 @@ This will utilize Docker and Docker compsoe to first build the build environemt 
 
 ## Design Files
 ### Mechanical
-STL files for 3D printing can be found on GrabCAD here: 
+STL files for 3D printing can be found on GrabCAD here: https://grabcad.com/library/eboard-remote-control-housing-1
 
 ### Electrical
 BOM and schematic coming soon.
