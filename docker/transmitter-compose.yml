@@ -1,0 +1,15 @@
+version: '3'
+services:
+  eboard-env:
+    build: ${PWD}/docker
+    image: eboard
+    container_name: transmitter-env
+    volumes: 
+      - ${PWD}:/usr/src/project
+      - /dev:/dev
+    working_dir: /usr/src/project/transmitter
+    stdin_open: true
+    tty: true
+    privileged: true
+    network_mode: host
+    entrypoint: /bin/bash
